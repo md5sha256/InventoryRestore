@@ -1,4 +1,4 @@
-package me.evanog.invrestore;
+package io.github.evancolewright;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +11,8 @@ public class RestoreCommand implements CommandExecutor {
 
     private InvRestore main;
 
-    private RestoreCommand() {}
+    private RestoreCommand() {
+    }
 
     protected RestoreCommand(InvRestore main) {
         this.main = main;
