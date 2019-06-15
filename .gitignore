@@ -6,6 +6,7 @@
 # $ git config --global mergetool.keepBackup false
 *.git
 .gitignore
+*.gitignore
 *.orig
 
 # Created by git when using merge tools for conflicts
