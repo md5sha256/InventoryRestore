@@ -25,6 +25,7 @@
 # Project based stuff
 
 *.iml
+InventoryRestore.iml
 
 # User-specific stuff
 .idea/**/workspace.xml
