@@ -1,6 +1,7 @@
 package io.github.evancolewright;
 
 import com.gmail.andrewandy.Common;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;

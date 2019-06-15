@@ -86,4 +86,12 @@ public class RestoreUtil {
     public Map<UUID, Map<World, CustomInventory>> getSavedItems() {
         return items;
     }
+
+    void setSavedArmour(Map<UUID, Map<World, CustomInventory>> armour) {
+        this.armour = armour;
+    }
+
+    void setSavedItems(Map<UUID, Map<World, CustomInventory>> items) {
+        this.items = items;
+    }
 }

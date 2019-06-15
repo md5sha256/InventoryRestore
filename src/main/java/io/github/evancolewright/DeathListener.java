@@ -1,5 +1,6 @@
 package io.github.evancolewright;
 
+import com.gmail.andrewandy.CustomInventory;
 import com.gmail.andrewandy.RestoreUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,6 @@ public class DeathListener implements Listener {
     public void onDeath(final PlayerDeathEvent event) {
         final Player player = event.getEntity();
         final PlayerInventory inv = player.getInventory();
-        RestoreUtil.getInstance().storeContents(player, inv.getContents(), inv.getArmorContents());
+        RestoreUtil.getInstance().storeContents(player, new CustomInventory(player.getUniqueId(), inv.getContents(), "items"), new CustomInventory(player.getUniqueId(), inv.getArmorContents(), "armour"));
     }
 }
