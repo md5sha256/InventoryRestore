@@ -1,0 +1,14 @@
+name: InvRestore
+version: 1.0-ALPHA
+authors:
+  - EvanTheSurfer
+  - Andrewandy
+main: io.github.evancolewright.InvRestore
+loadbefore: [NBTTile-API]
+depend: [NBTTile-API]
+description: Inventory Restore plugin
+prefix: ""
+commands:
+  invrestore:
+    aliases: [invrestore, ir]
+    description: Restore a player's last inventory after death.

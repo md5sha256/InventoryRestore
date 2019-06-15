@@ -1,21 +1,18 @@
 package io.github.evancolewright;
 
+import com.gmail.andrewandy.RestoreUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.PlayerInventory;
 
 public class DeathListener implements Listener {
 
-    private InvRestore main = null;
-
-    DeathListener(InvRestore main) {
-        this.main = main;
-    }
-
     @EventHandler
-    public void onDeath(final PlayerDeathEvent e) {
-        final Player p = e.getEntity();
-        main.storeContents(p, p.getInventory().getContents(), p.getInventory().getArmorContents());
+    public void onDeath(final PlayerDeathEvent event) {
+        final Player player = event.getEntity();
+        final PlayerInventory inv = player.getInventory();
+        RestoreUtil.getInstance().storeContents(player, inv.getContents(), inv.getArmorContents());
     }
 }

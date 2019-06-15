@@ -1,63 +1,40 @@
 package io.github.evancolewright;
 
-import com.gmail.andrewandy.UpdateTask;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import com.gmail.andrewandy.Common;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.WeakHashMap;
+import java.util.logging.Level;
 
 public class InvRestore extends JavaPlugin {
 
-    //edited by @andrewandy
+    /*
+    Edited, updated and additions made by andrewandy
+     */
     private static InvRestore instance;
-    private Map<UUID, Map<World, ItemStack[]>> itemMap = new HashMap<>();
-    private Map<UUID, Map<World, ItemStack[]>> armourMap = new HashMap<>();
-    private DeathListener listener = null;
-    private RestoreCommand command = null;
+    private double[] supportedVersions = new double[]{10.0, 14.2};
 
-    // By @andrewandy
+
     public static JavaPlugin getInstance() {
         return instance;
     }
 
     @Override
     public void onEnable() {
-        //By @andrewandy
         instance = this;
-        new UpdateTask().runTaskTimerAsynchronously(this, 1, 1000);
-        //end
-        listener = new DeathListener(this);
-        command = new RestoreCommand(this);
-        getServer().getPluginManager().registerEvents(listener, this);
+        double[] ver = Common.getNumberVersion();
+        if (ver[0] < supportedVersions[0] || ver[ver.length -1] > supportedVersions[1]) {
+            Common.log(Level.SEVERE, "&cYou are running an unsupported version of spigot.");
+            this.getPluginLoader().disablePlugin(this);
+            return;
+        }
+        new DeathListener();
+        new RestoreCommand();
+        Common.log(Level.INFO, "&a[Inventory&eRestore] Plugin is now enabled.");
     }
 
     @Override
     public void onDisable() {
+        Common.log(Level.INFO, "&a[Inventory&eRestore] Plugin is now disabled!");
+        instance = null;
     }
-
-    //Edited by @andrewandy
-
-    void restoreInventory(Player p) {
-        PlayerInventory inventory = p.getInventory();
-        inventory.setContents(itemMap.get(p.getUniqueId()).get(p.getWorld()));
-        inventory.setArmorContents(armourMap.get(p.getUniqueId()).get(p.getWorld()));
-    }
-
-    void storeContents(Player p, ItemStack[] items, ItemStack[] armor) {
-        Map<World, ItemStack[]> itemStacks = new WeakHashMap<>();
-        itemStacks.put(p.getWorld(), items);
-        itemMap.put(p.getUniqueId(), itemStacks);
-        itemStacks.clear();
-        itemStacks.put(p.getWorld(), armor);
-        armourMap.put(p.getUniqueId(), itemStacks);
-    }
-    //end
-
-
 }
