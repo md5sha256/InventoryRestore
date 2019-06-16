@@ -2,18 +2,23 @@ package com.gmail.andrewandy;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import io.github.evancolewright.InvRestore;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.util.*;
-import java.util.logging.Level;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.WeakHashMap;
 
 /**
  * Custom Serializable inventory.
@@ -33,19 +38,6 @@ public class CustomInventory implements ConfigurationSerializable {
         this.world = world;
     }
 
-
-    /**
-     * Serialise this object
-     * @return a Map representation of the current state.
-     */
-    @Override
-    public Map<String, Object> serialize() {
-        Map<String, Object> result = new WeakHashMap<>();
-        String name = player.toString() + "_" + world.getUID() + "_" + type;
-        result.put(name, contents);
-        return result;
-    }
-
     public static CustomInventory deserialise(Map<String, Object> raw) {
         BiMap<String, Object> biMap = HashBiMap.create(raw);
         String name = (String) biMap.inverse().values().toArray()[0];
@@ -57,7 +49,20 @@ public class CustomInventory implements ConfigurationSerializable {
             throw new IllegalStateException("Unable to find world");
         }
         ItemStack[] contents = (ItemStack[]) raw.get(name);
-        return new CustomInventory(player, world,contents, type);
+        return new CustomInventory(player, world, contents, type);
+    }
+
+    /**
+     * Serialise this object
+     *
+     * @return a Map representation of the current state.
+     */
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> result = new LinkedHashMap<>();
+        String name = player.toString() + "_" + world.getUID() + "_" + type;
+        result.put(name, contents);
+        return result;
     }
 
     public ItemStack[] getContents() {

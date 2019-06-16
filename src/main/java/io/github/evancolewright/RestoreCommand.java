@@ -59,7 +59,7 @@ public class RestoreCommand implements CommandExecutor {
                         return false;
                     }
                     final PlayerInventory inv = target.getInventory();
-                    RestoreUtil.getInstance().storeContents(target, new CustomInventory(player.getUniqueId(), player.getWorld(),inv.getContents(), "items"), new CustomInventory(player.getUniqueId(), player.getWorld(), inv.getArmorContents(), "armour"));
+                    RestoreUtil.getInstance().storeContents(target, new CustomInventory(player.getUniqueId(), player.getWorld(), inv.getContents(), "items"), new CustomInventory(player.getUniqueId(), player.getWorld(), inv.getArmorContents(), "armour"));
                     if (!RestoreUtil.getInstance().restoreInventory(target)) {
                         Common.tell(player, "&eUnable to restore " + target.getDisplayName() + " 's &einventory");
                     }

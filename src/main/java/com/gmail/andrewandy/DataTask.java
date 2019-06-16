@@ -3,16 +3,18 @@ package com.gmail.andrewandy;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import io.github.evancolewright.InvRestore;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.Level;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.UUID;
 
 public class DataTask extends BukkitRunnable {
 
@@ -26,9 +28,10 @@ public class DataTask extends BukkitRunnable {
 
     /**
      * Save all current player data to the disk.
+     *
      * @throws IOException
      */
-    void save() throws IOException{
+    void save() throws IOException {
 
         Map<UUID, Map<World, CustomInventory>> items = RestoreUtil.getInstance().getSavedItems();
         Map<UUID, Map<World, CustomInventory>> armour = RestoreUtil.getInstance().getSavedArmour();
@@ -54,22 +57,23 @@ public class DataTask extends BukkitRunnable {
 
     /**
      * Load a player's Inventory Data
+     *
      * @param player the player in question.
      * @throws IOException
      * @throws ClassNotFoundException
      */
 
-    void load(Player player) throws IOException, ClassNotFoundException{
+    void load(Player player) throws IOException, ClassNotFoundException {
 
         if (!HashBiMap.create(RestoreUtil.getInstance().getSavedItems()).inverse().values().contains(player.getUniqueId())) {
             return;
         }
         InputStream config = InvRestore.class.getResourceAsStream("config.yml");
-         BukkitObjectInputStream in = new BukkitObjectInputStream(config);
-         Map<String, Object> raw = (Map) in.readObject();
-         in.close();
-         config.close();
-         CustomInventory inv = CustomInventory.deserialise(raw);
+        BukkitObjectInputStream in = new BukkitObjectInputStream(config);
+        Map<String, Object> raw = (Map) in.readObject();
+        in.close();
+        config.close();
+        CustomInventory inv = CustomInventory.deserialise(raw);
 
     }
 
