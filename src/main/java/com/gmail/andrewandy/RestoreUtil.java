@@ -17,6 +17,7 @@ public class RestoreUtil {
     private static boolean taskIsRegistered = false;
     private Map<UUID, Map<World, CustomInventory>> items = new HashMap<>();
     private Map<UUID, Map<World, CustomInventory>> armour = new HashMap<>();
+
     private RestoreUtil() {
         registerTask();
     }
